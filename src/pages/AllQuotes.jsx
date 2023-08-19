@@ -6,19 +6,6 @@ import LoadingSpinner from "../components/UI/LoadingSpinner";
 import useHttp from "../hooks/use-http";
 import { getAllQuotes } from "../lib/api";
 
-export const DUMMY_QUOTES = [
-  {
-    id: "q1",
-    author: "Himani",
-    text: "I love Reactjs",
-  },
-  {
-    id: "q2",
-    author: "Shaily",
-    text: "I love Nodejs",
-  },
-];
-
 const AllQuotes = () => {
   const {
     sendRequest,

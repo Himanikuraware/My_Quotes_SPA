@@ -6,7 +6,6 @@ import HighlightedQuote from "../components/quotes/HighlightedQuote";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import useHttp from "../hooks/use-http";
 import { getSingleQuote } from "../lib/api";
-import { DUMMY_QUOTES } from "./AllQuotes";
 
 const QuoteDetail = () => {
   const match = useRouteMatch();
