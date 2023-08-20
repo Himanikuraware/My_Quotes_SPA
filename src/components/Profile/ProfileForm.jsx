@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
+import { changePassword } from "../../lib/api";
 import AuthContext from "../../store/auth-context";
 import classes from "./ProfileForm.module.css";
 
@@ -9,39 +10,17 @@ const ProfileForm = () => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const enteredNewPassword = newPasswordRef.current.value;
     if (enteredNewPassword) {
-      fetch(process.env.REACT_APP_FIREBASE_CHANGE_PASSWORD_LINK, {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-          password: enteredNewPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            return res.json().then((data) => {
-              let errorMessage = "Authentication failed!";
-              if (data && data.error && data.error.message) {
-                errorMessage = data.error.message;
-              }
-              throw new Error(errorMessage);
-            });
-          }
-        })
-        .then((data) => {
-          history.replace("/");
-        })
-        .catch((err) => alert(err.message));
+      try {
+        await changePassword(authCtx.token, enteredNewPassword);
+        history.replace("/");
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
 
@@ -50,7 +29,7 @@ const ProfileForm = () => {
       <div className={classes.control}>
         <label htmlFor="new-password">New Password</label>
         <input
-          minLength={6}
+          // minLength={6}
           type="password"
           id="new-password"
           ref={newPasswordRef}

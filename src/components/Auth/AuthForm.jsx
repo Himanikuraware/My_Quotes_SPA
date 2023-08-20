@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { loginUser, signupUser } from "../../lib/api";
 
 import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
@@ -18,51 +19,30 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async(event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     setIsLoading(true);
-    let url;
+    try {
+      let data;
+      setIsLoading(false)
+      if (isLogin) {
+        data = await loginUser(enteredEmail, enteredPassword);
+      } else {
+        data = await signupUser(enteredEmail, enteredPassword);
+      }
 
-    if (isLogin) {
-      url = process.env.REACT_APP_FIREBASE_LOGIN_LINK;
-    } else {
-      url = process.env.REACT_APP_FIREBASE_SIGNUP_LINK;
+      const expirationTime = new Date(
+        new Date().getTime() + +data?.expiresIn * 1000
+      );
+      authCtx.login(data?.idToken, expirationTime.toISOString());
+      history.replace("/");
+    } catch (error) {
+      alert(error.message);
     }
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication failed!";
-            if (data && data.error && data.error.message) {
-              errorMessage = data.error.message;
-            }
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        const expirationTime = new Date(new Date().getTime() + (+data?.expiresIn * 1000));
-        authCtx.login(data?.idToken, expirationTime.toISOString());
-        history.replace("/");
-      })
-      .catch((err) => alert(err.message));
   };
 
   return (
