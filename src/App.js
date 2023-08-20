@@ -1,6 +1,7 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
+import UserProfile from "./components/Profile/UserProfile";
 import AllQuotes from "./pages/AllQuotes";
 import AuthPage from "./pages/AuthPage";
 import NewQuote from "./pages/NewQuote";
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route path="/auth" exact>
           <AuthPage />
+        </Route>
+        <Route path='/profile' exact>
+          <UserProfile />
         </Route>
         <Route path="/quotes/:quoteId">
           <QuoteDetail />

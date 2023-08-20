@@ -8,7 +8,7 @@
   background-color: #008080;
 }
 
-.logo a{
+.logo a {
   font-size: 2rem;
   color: white;
   text-decoration: none;
@@ -35,4 +35,22 @@
 .nav a:active,
 .nav a.active {
   color: #e6fcfc;
+}
+
+.nav button {
+  font: icon;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  font-weight: bold;
+  padding: 0.4rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav button:hover,
+.nav button:active,
+.nav button.active {
+  background-color: #6dcdde;
+  color: #38015c;
 }
