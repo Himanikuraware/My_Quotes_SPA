@@ -8,9 +8,10 @@
   background-color: #008080;
 }
 
-.logo {
+.logo a{
   font-size: 2rem;
   color: white;
+  text-decoration: none;
 }
 
 .nav ul {

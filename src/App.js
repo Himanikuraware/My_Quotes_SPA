@@ -2,6 +2,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
 import AllQuotes from "./pages/AllQuotes";
+import AuthPage from "./pages/AuthPage";
 import NewQuote from "./pages/NewQuote";
 import NotFound from "./pages/NotFound";
 import QuoteDetail from "./pages/QuoteDetail";
@@ -15,6 +16,9 @@ function App() {
         </Route>
         <Route path="/quotes" exact>
           <AllQuotes />
+        </Route>
+        <Route path="/auth" exact>
+          <AuthPage />
         </Route>
         <Route path="/quotes/:quoteId">
           <QuoteDetail />
